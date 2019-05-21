@@ -5,6 +5,11 @@ class analogInput extends roboBaseClass {
     private double m_currentValue;
     private double m_maxValue = 1;
     private double m_minValue = -1;
+    public analogInput() {
+        super();
+        m_maxValue = 1;
+        m_minValue = -1;
+    }
     public analogInput(double max, double min) {
         super();
         m_maxValue = max;

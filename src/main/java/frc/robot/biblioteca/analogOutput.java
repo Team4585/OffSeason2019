@@ -4,6 +4,11 @@ class analogOutput extends roboBaseClass {
     private double m_currentValue;
     private double m_maxValue = 1;
     private double m_minValue = -1;
+    public analogOutput() {
+        super();
+        m_maxValue = 1;
+        m_minValue = -1;
+    }
     public analogOutput(double max, double min) {
         super();
         m_maxValue = max;
