@@ -19,6 +19,12 @@ import frc.robot.biblioteca.linearActuator;
 import frc.robot.biblioteca.joystickAxis;
 import frc.robot.biblioteca.roboBaseClass;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DigitalOutput;
+import frc.robot.biblioteca.light;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,10 +39,12 @@ public class Robot extends TimedRobot {
   public potentiometer m_potentiometer;
   public joystickAxis m_slider;
   public linearActuator m_actuator;
+  public light m_redLED;
   public Joystick m_joystick;
+  private WPI_TalonSRX m_LeftMaster = new WPI_TalonSRX(11);
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //Command m_autonomousCommand;
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,13 +53,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     //m_oi = new OI();
+    m_redLED = new light(2);
     m_joystick = new Joystick(0);
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    m_potentiometer = new potentiometer(0);
-    m_actuator = new linearActuator(0);
-    m_slider = new joystickAxis(3, m_joystick);
+    //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    m_potentiometer = new potentiometer(3);
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    //SmartDashboard.putData("Auto mode", m_chooser);
   }
 
   /**
@@ -64,8 +71,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    System.out.println("Slider:"+m_slider.getValue());
-    System.out.println("Actuator"+m_actuator.getValue());
+    System.out.println("Potentiometer:"+m_potentiometer.getValue());
+    SmartDashboard.putNumber("Potentiometer Value", m_potentiometer.getValue());
+    //System.out.println("Actuator"+m_actuator.getValue());
   }
 
   /**
@@ -137,7 +145,6 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
     roboBaseClass.gatherInfoAll();
     roboBaseClass.doActionsAll();
-    m_actuator.setValue(m_slider.getValue()/2+1.5);
   }
 
   /**
